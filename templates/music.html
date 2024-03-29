@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Songs</title>
+</head>
+<body>
+Name of song: {{ music.song_title }}<br>
+Artist: {{ music.artist }}<br>
+Description: {{ music.music_description }}<br>
+Genre: ${{ music.song_genre }}<br>
+Category: <a href="/category/ {{ music.song_category.id }}">{{ music.song_category.id }}</a>
+</body>
+</html>

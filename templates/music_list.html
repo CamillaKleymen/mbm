@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MUSIC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #aquamarine;
+            background-image: url('{static /static/imgs/header.jpg %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        h1 {
+            color: #333333;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <section id="music">
+        <div class="container">
+            <h1 class="section-title text-center">MUSIC</h1>
+            <h3 class="section-title text-center">There you can find any song from any category</h3>
+            <div class="row">
+                <form action="{% url 'search' %}" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="search_song" placeholder="Search music">
+                    <button type="submit">Search</button>
+                </form>
+
+                <div class="list-group">
+                    {% for category in categories %}
+                        <a href="/category/{{ category.id }}" class="list-group-item">{{ category.category_title }}</a>
+                    {% endfor %}
+                </div>
+                 <div class="col-md-4">
+                    {% for music in music_list %}
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ music.id }}</h5>
+                            <p class="card-text">{{ music.description }}</p>
+                            <a href="/categories/{{ music.category.id }}" class="btn btn-primary">See more</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

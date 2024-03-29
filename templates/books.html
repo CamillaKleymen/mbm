@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Books</title>
+</head>
+<body>
+Name of book: {{ book.book_title }}<br>
+Author: {{ book.director }}<br>
+Description: {{ book.book_description }}<br>
+Genre: {{ book.book_genre }}<br>
+Year: {{ book.book_year }}<br>
+Category: <a href="/category/ {{ book.book_category.id }}">{{ books.book_category.id }}</a>
+</body>
+</html>

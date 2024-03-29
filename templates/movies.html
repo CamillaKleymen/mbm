@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movies</title>
+</head>
+<body>
+Name of movie: {{ movie.movie_title }}<br>
+Director: {{ movie.director }}<br>
+Description: {{ movie.movie_description }}<br>
+Genre: {{ movie.movie_genre }}<br>
+Year: {{ movie.movie_year }}<br>
+Category: <a href="/category/ {{ movie.song_category.id }}">{{ movie.song_category.id }}</a>
+</body>
+</html>
