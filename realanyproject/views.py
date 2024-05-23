@@ -2,9 +2,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.views import LoginView
-from django.contrib.auth import logout
+from django.contrib.auth import logout, authenticate, login
 from .models import Movie, Music, Book, CategoryModel
-from .forms import SearchForm
+from .forms import SearchForm, CustomUserRegistrationForm, CustomUserLoginForm
 
 
 class MovieList(View):
@@ -33,17 +33,32 @@ class HomePage(View):
         context = {'categories': categories, 'music': music, 'movie': movie, 'book': book, 'form': form}
         return render(request, 'index.html', context)
 
-class MyLogin(LoginView):
-    template_name = 'login.html'
-    redirect_authenticated_user = True
+def register(request):
+    if request.method == 'POST':
+        form = CustomUserRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = CustomUserRegistrationForm()
+    return render(request, 'signup.html', {'form': form})
+def user_login(request):
+    if request.method == 'POST':
+        form = CustomUserLoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password'] #Hello
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('profile')
+    else:
+        form = CustomUserLoginForm()
+    return render(request, 'login.html', {'form': form})
 
-    def get_success_url(self):
-        return '/'
-
-class Logout(View):
-    def get(self, request):
-        logout(request)
-        return redirect('home')
+def logout_view(request):
+    logout(request)
+    return redirect('login')
 
 
 
@@ -114,3 +129,4 @@ class CategoryPage(View):
         current_book = Book.objects.filter(book_category=category)
         context = {'music': current_songs, 'movie': current_movies, 'book': current_book}
         return render(request, 'category.html', context)
+

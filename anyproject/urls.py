@@ -22,8 +22,9 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.urls import path
 from realanyproject import views
-from realanyproject.views import HomePage, MovieList, MusicList, BookList, MyLogin, Logout, Search, MusicPage, MoviePage, BookPage, CategoryPage
-
+from realanyproject.forms import register
+from realanyproject.views import HomePage, MovieList, MusicList, BookList, MyLogin, Logout, Search, MusicPage, MoviePage, BookPage, CategoryPage, profile
+from user.views import *
 
 
 
@@ -49,6 +50,9 @@ urlpatterns = [
     path('movie/<int:pk>/', views.MoviePage.as_view(), name='movie_page'),
     path('book/<int:pk>/', views.BookPage.as_view(), name='book_page'),
     path('category/<int:pk>/', views.CategoryPage.as_view(), name='category_page'),
+    path('admin/', admin.site.urls),
+    path('signup/', register),
+    path('profile/', profile, name='profile'),
 ]
 
 

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+</head>
+<body>
+<style>
+    *,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  font-size: 62,5%;
+}
+
+body {
+  height: 100vh;
+	width: 100%;
+  background: #0f2027; /* fallback for old browsers */
+  background: linear-gradient(to right,#2c5364, #203a43, #0f2027);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #fff;
+}
+
+.form__label {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.2rem;
+  margin-left: 2rem;
+  margin-top: 0.7rem;
+  display: block;
+  transition: all 0.3s;
+  transform: translateY(0rem);
+}
+
+.form__input {
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  font-size: 1.2rem;
+	margin: 0 auto;
+  padding: 1.5rem 2rem;
+  border-radius: 0.2rem;
+  background-color: rgb(255, 255, 255);
+  border: none;
+  width: 90%;
+  display: block;
+  border-bottom: 0.3rem solid transparent;
+  transition: all 0.3s;
+}
+
+.form__input:placeholder-shown + .form__label {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transform: translateY(-4rem);
+  transform: translateY(-4rem);
+}
+
+</style>
+    <div class="form__group">
+        <form method="post">
+        {% csrf_token %}
+        <p > {{ form.errors }}</p>
+        <input type="text" class="form__input" name="username" id="id_username" placeholder="Username" required="" />
+
+        <label for="id_email" class="form__label">Email</label>
+        <input type="email" class="form__input" name="email" id="id_email" placeholder="Email" required="" />
+
+        <label for="id_phone_number" class="form__label">Phone</label>
+        <input type="text" class="form__input" name="phone_number" id="id_phone_number" placeholder="Phone" required="" />
+
+        <label for="id_password1" class="form__label">Password</label>
+        <input type="password" class="form__input" name="password1" id="id_password1" placeholder="Password" required="" />
+
+        <label for="id_password2" class="form__label">password2</label>
+        <input type="password" class="form__input" name="password2" id="id_password2" placeholder="Password2" required="" />
+
+        <label for="id_age" class="form__label">Age</label>
+        <input type="number" class="form__input" name="age" id="id_age" placeholder="Age" required="" />
+        <br>
+        <button type="submit" style="width: 200px;height: 100px;">Submit</button>
+    </form>
+    </div>
+</body>
+</html>
