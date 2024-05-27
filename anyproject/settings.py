@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-1+r$j_=8p665+ye9yl%_0rb309tuc=(7@7f*i^(%ueq)891i9f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['137.184.228.192', '5060']
 
 
 # Application definition
@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'realanyproject',
     'jazzmin',
     'user',
-
 ]
 
 MIDDLEWARE = [
@@ -79,11 +78,14 @@ WSGI_APPLICATION = 'anyproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mbm',
+        'USER': 'postgres',
+        'PASSWORD': 'user',
+        'HOST': 'localhost',
+        'PORT': '5060',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -119,7 +121,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-AUTH_USER_PASSWORD = 'user.User'
+AUTH_USER_MODEL = 'user.User'
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR/'static'
