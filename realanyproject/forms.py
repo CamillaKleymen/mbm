@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from .forms import CustomUserRegistrationForm, CustomUserLoginForm, ProfileForm
+# from .forms import CustomUserRegistrationForm, CustomUserLoginForm, ProfileForm
 from django.contrib.auth import logout
 
 class SearchForm(forms.Form):

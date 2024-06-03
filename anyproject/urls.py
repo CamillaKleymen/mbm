@@ -22,8 +22,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.urls import path
 from realanyproject import views
-from realanyproject.forms import register
-from realanyproject.views import HomePage, MovieList, MusicList, BookList, MyLogin, Logout, Search, MusicPage, MoviePage, BookPage, CategoryPage, profile
+from realanyproject.forms import register, profile
+from realanyproject.views import HomePage, MovieList, MusicList, BookList, Search, MusicPage, MoviePage, BookPage, CategoryPage
 from user.views import *
 
 

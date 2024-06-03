@@ -4,7 +4,7 @@ from django.views import View
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout, authenticate, login
 from .models import Movie, Music, Book, CategoryModel
-from .forms import SearchForm, CustomUserRegistrationForm, CustomUserLoginForm
+from realanyproject.forms import forms, CustomUserRegistrationForm, CustomUserLoginForm, SearchForm
 
 
 class MovieList(View):
