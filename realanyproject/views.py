@@ -1,11 +1,11 @@
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout, authenticate, login
+from django.shortcuts import render
+from realanyproject.forms import CustomUserRegistrationForm, CustomUserLoginForm, ProfileForm, SearchForm
 from .models import Movie, Music, Book, CategoryModel
-from realanyproject.forms import forms, CustomUserRegistrationForm, CustomUserLoginForm, SearchForm
-
 
 class MovieList(View):
     def get(self, request):
@@ -16,7 +16,6 @@ class MusicList(View):
     def get(self, request):
         music = Music.objects.all()
         return render(request, 'music_list.html', {'music': music})
-
 
 class BookList(View):
     def get(self, request):
@@ -42,12 +41,13 @@ def register(request):
     else:
         form = CustomUserRegistrationForm()
     return render(request, 'signup.html', {'form': form})
+
 def user_login(request):
     if request.method == 'POST':
         form = CustomUserLoginForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
-            password = form.cleaned_data['password'] #Hello
+            password = form.cleaned_data['password']
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
@@ -60,73 +60,48 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-
-
 class Search(View):
     def post(self, request):
-        if 'search_song' in request.POST:
-            get_song = request.POST.get('search_song')
-            try:
-                exact_song = Music.objects.filter(title__icontains=get_song).first()
-                if exact_song:
-                    return redirect(f'/music/{exact_song.id}')
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            search_term = form.cleaned_data.get('search_term')
+            if search_term:
+                music_result = Music.objects.filter(title__icontains=search_term).first()
+                movie_result = Movie.objects.filter(title__icontains=search_term).first()
+                book_result = Book.objects.filter(title__icontains=search_term).first()
+                if music_result:
+                    return redirect(f'/music/{music_result.id}')
+                elif movie_result:
+                    return redirect(f'/movie/{movie_result.id}')
+                elif book_result:
+                    return redirect(f'/book/{book_result.id}')
                 else:
-                    print('No results')
-                    return redirect('/')
-            except ObjectDoesNotExist:
-                print('Error retrieving song')
-                return redirect('/')
-        elif 'search_movie' in request.POST:
-            get_movie = request.POST.get('search_movie')
-            try:
-                exact_movie = Movie.objects.filter(title__icontains=get_movie).first()
-                if exact_movie:
-                    return redirect(f'/movie/{exact_movie.id}')
-                else:
-                    print('No results')
-                    return redirect('/')
-            except ObjectDoesNotExist:
-                print('Error retrieving movie')
-                return redirect('/')
-        elif 'search_book' in request.POST:
-            get_book = request.POST.get('search_book')
-            try:
-                exact_book = Book.objects.filter(title__icontains=get_book).first()
-                if exact_book:
-                    return redirect(f'/book/{exact_book.id}')
-                else:
-                    print('No results')
-                    return redirect('/')
-            except ObjectDoesNotExist:
-                print('Error retrieving book')
-                return redirect('/')
-
+                    print('No results found.')
         return redirect('/')
 
 class MusicPage(View):
     def get(self, request, pk):
-        song = Music.objects.get(id=pk)
+        song = get_object_or_404(Music, id=pk)
         context = {'song': song}
         return render(request, 'music.html', context)
 
 class MoviePage(View):
     def get(self, request, pk):
-        movie = Movie.objects.get(id=pk)
+        movie = get_object_or_404(Movie, id=pk)
         context = {'movie': movie}
         return render(request, 'movie.html', context)
 
 class BookPage(View):
     def get(self, request, pk):
-        book = Book.objects.get(id=pk)
+        book = get_object_or_404(Book, id=pk)
         context = {'book': book}
         return render(request, 'book.html', context)
 
 class CategoryPage(View):
     def get(self, request, pk):
-        category = CategoryModel.objects.get(id=pk)
+        category = get_object_or_404(CategoryModel, id=pk)
         current_songs = Music.objects.filter(music_category=category)
         current_movies = Movie.objects.filter(movie_category=category)
         current_book = Book.objects.filter(book_category=category)
         context = {'music': current_songs, 'movie': current_movies, 'book': current_book}
         return render(request, 'category.html', context)
-
